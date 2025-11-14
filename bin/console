@@ -1,0 +1,9 @@
+#!/bin/bash
+
+SERVER='http://0.0.0.0:3000/'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+# GET
+echo -e "${RED}GET Request api/contacts${NC}"
+curl ${SERVER}api/contacts | jq
+# POST
