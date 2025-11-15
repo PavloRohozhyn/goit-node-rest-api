@@ -10,7 +10,9 @@
     "express": "^5.1.0",
     "joi": "^17.11.0",
     "morgan": "^1.10.0",
-    "nanoid": "^5.1.6"
+    "nanoid": "^5.1.6",
+    "swagger-ui-express": "^5.0.1",
+    "yaml": "^2.8.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
