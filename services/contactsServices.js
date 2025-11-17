@@ -6,6 +6,7 @@ import { nanoid } from "nanoid";
 const contactsPath = path.resolve("db", "contacts.json");
 
 /**
+ * Update contact db
  *
  * @param {*} res
  */
@@ -14,6 +15,7 @@ export async function updateContacts(res) {
 }
 
 /**
+ * List contact
  *
  * @returns
  */
@@ -23,6 +25,7 @@ export async function listContacts() {
 }
 
 /**
+ * Get contact by id
  *
  * @param {*} contactId
  * @returns
@@ -34,6 +37,7 @@ export async function getContactById(contactId) {
 }
 
 /**
+ * Remove contact
  *
  * @param {*} contactId
  * @returns
@@ -48,6 +52,7 @@ export async function removeContact(contactId) {
 }
 
 /**
+ * Add contact
  *
  * @param {*} payload
  * @returns
@@ -64,6 +69,7 @@ export async function addContact(payload) {
 }
 
 /**
+ * Update contact by ID
  *
  * @param {*} contactId
  * @param {*} updateData
@@ -71,9 +77,9 @@ export async function addContact(payload) {
  */
 export async function updateContactById(contactId, updateData) {
   const res = await listContacts();
-  const idx = res.findIndex((index) => index.id === contactId);
+  const idx = res.findIndex((idx) => idx.id === contactId);
   if (idx === -1) return null;
-  res[idx] = { ...res[index], ...updateData };
+  res[idx] = { ...res[idx], ...updateData };
   await updateContacts(res);
   return res[idx];
 }

@@ -9,7 +9,7 @@ paths:
   /contacts:
     get:
       tags:
-        - contacts
+        - Contacts
       summary: Get all contacts
       operationId: listContacts
       responses:
@@ -23,7 +23,7 @@ paths:
                   $ref: "#/components/schemas/Contact"
     post:
       tags:
-        - contacts
+        - Contacts
       summary: Create a new contact
       operationId: addContact
       requestBody:
@@ -43,7 +43,7 @@ paths:
   /contacts/{id}:
     get:
       tags:
-        - contacts
+        - Contacts
       summary: Get contact by ID
       operationId: getContactById
       parameters:
@@ -63,7 +63,7 @@ paths:
           description: Not Found
     delete:
       tags:
-        - contacts
+        - Contacts
       summary: Delete contact by ID
       operationId: removeContact
       parameters:
@@ -83,7 +83,7 @@ paths:
           description: Not Found
     put:
       tags:
-        - contacts
+        - Contacts
       summary: Update an existing contact
       operationId: updateContact
       parameters:
@@ -91,13 +91,13 @@ paths:
           name: id
           schema:
             type: string
-          description: ID of the contact to update.
+          description: ID of the user to retrieve.
       requestBody:
         description: Contact object that needs to be updated
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/NewContact"
+              $ref: "#/components/schemas/UpdateContact"
       responses:
         "200":
           description: Contact updated successfully
@@ -128,6 +128,19 @@ components:
           type: string
           example: (992) 914-3792
     NewContact:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Allen Raymond
+        email:
+          type: string
+          format: email
+          example: nulla.ante@vestibul.co.uk
+        phone:
+          type: string
+          example: (992) 914-3792
+    UpdateContact:
       type: object
       properties:
         name:
