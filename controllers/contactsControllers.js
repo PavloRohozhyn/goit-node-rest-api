@@ -1,15 +1,75 @@
-import { listContacts } from "../services/contactsServices.js";
+import * as service from "../services/contactsServices.js";
+import httpError from "./../helpers/HttpError.js";
 
+/**
+ * Get All contacts
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
 export const getAllContacts = async (req, res) => {
-  const data = await listContacts();
-  console.log(data);
-  return res.status(200).json(data);
+  const data = await service.listContacts();
+  return res.json(data);
 };
 
-export const getOneContact = (req, res) => {};
+/**
+ * Get contacts by ID
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+export const getOneContact = async (req, res) => {
+  const { id } = req.params;
+  const data = await service.getContactById(id);
+  if (!data) {
+    throw httpError(404, `Not Found`);
+  }
+  res.json(data);
+};
 
-export const deleteContact = (req, res) => {};
+/**
+ * Delete contact by ID
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+export const deleteContact = async (req, res) => {
+  const { id } = req.params;
+  const data = await service.removeContact(id);
+  if (!data) {
+    throw httpError(404, `Not Found`);
+  }
+  res.json(data);
+};
 
-export const createContact = (req, res) => {};
+/**
+ * Create contact
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+export const createContact = async (req, res) => {
+  const data = await service.addContact(req.body);
+  res.status(201).json(data);
+};
 
-export const updateContact = (req, res) => {};
+/**
+ * Update contact by ID
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+export const updateContact = async (req, res) => {
+  const { id } = req.params;
+  if (!Object.keys(req.body).length) {
+    return res
+      .status(400)
+      .json({ message: "Body must have at least one field" });
+  }
+  const data = await service.updateContactById(id, req.body);
+  if (!data) {
+    throw httpError(404, `Not Found`);
+  }
+  res.json(data);
+};

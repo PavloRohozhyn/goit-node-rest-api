@@ -1,6 +1,10 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+// swagger
+import swaggerUi from "swagger-ui-express";
+import fs from "node:fs";
+import YAML from "yaml";
 
 import contactsRouter from "./routes/contactsRouter.js";
 
@@ -11,6 +15,12 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/contacts", contactsRouter);
+
+// -- swagger
+const file = fs.readFileSync("./swagger/swagger.yaml", "utf8");
+const swaggerDocument = YAML.parse(file);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// -- end swagger
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });

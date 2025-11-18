@@ -1,0 +1,155 @@
+openapi: 3.1.0
+info:
+  title: REST API
+  description:
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api/
+paths:
+  /contacts:
+    get:
+      tags:
+        - Contacts
+      summary: Get all contacts
+      operationId: listContacts
+      responses:
+        "200":
+          description: List of contacts.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Contact"
+    post:
+      tags:
+        - Contacts
+      summary: Create a new contact
+      operationId: addContact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewContact"
+      responses:
+        "201":
+          description: Contact created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "400":
+          description: Validation error.
+  /contacts/{id}:
+    get:
+      tags:
+        - Contacts
+      summary: Get contact by ID
+      operationId: getContactById
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          description: ID of the user to retrieve.
+      responses:
+        "200":
+          description: User found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "404":
+          description: Not Found
+    delete:
+      tags:
+        - Contacts
+      summary: Delete contact by ID
+      operationId: removeContact
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          description: ID of the user to delete.
+      responses:
+        "200":
+          description: User was deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "404":
+          description: Not Found
+    put:
+      tags:
+        - Contacts
+      summary: Update an existing contact
+      operationId: updateContact
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          description: ID of the user to retrieve.
+      requestBody:
+        description: Contact object that needs to be updated
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateContact"
+      responses:
+        "200":
+          description: Contact updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "400":
+          description: Validation error
+        "404":
+          description: Item not found
+components:
+  schemas:
+    Contact:
+      type: object
+      properties:
+        id:
+          type: string
+          example: AeHIrLTr6JkxGE6SN-0Rw
+        name:
+          type: string
+          example: Allen Raymond
+        email:
+          type: string
+          format: email
+          example: nulla.ante@vestibul.co.uk
+        phone:
+          type: string
+          example: (992) 914-3792
+    NewContact:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Allen Raymond
+        email:
+          type: string
+          format: email
+          example: nulla.ante@vestibul.co.uk
+        phone:
+          type: string
+          example: (992) 914-3792
+    UpdateContact:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Allen Raymond
+        email:
+          type: string
+          format: email
+          example: nulla.ante@vestibul.co.uk
+        phone:
+          type: string
+          example: (992) 914-3792
