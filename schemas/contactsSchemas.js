@@ -15,10 +15,14 @@ export const createContactSchema = Joi.object({
     "string.empty": `"email" address cannot be empty.`,
     "any.required": `"email" is a required`,
   }),
-  phone: Joi.string().required().messages({
-    "string.empty": `"phone" address cannot be empty.`,
-    "any.required": `"phone" is a required`,
-  }),
+  phone: Joi.string()
+    .pattern(/^\(\d{3}\) \d{3}-\d{4}$/)
+    .required()
+    .messages({
+      "string.empty": `"phone" address cannot be empty.`,
+      "string.pattern.base": `"phone" should have a next format (000) 000-0000`,
+      "any.required": `"phone" is a required`,
+    }),
 });
 
 /**
@@ -36,6 +40,6 @@ export const updateContactSchema = Joi.object({
     .optional()
     .pattern(/^\(\d{3}\) \d{3}-\d{4}$/)
     .messages({
-      "string.base": `"phone" should have a next format (000) 000-0000`,
+      "string.pattern.base": `"phone" should have a next format (000) 000-0000`,
     }),
 });
