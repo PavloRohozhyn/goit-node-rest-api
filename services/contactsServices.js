@@ -2,6 +2,10 @@ import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { nanoid } from "nanoid";
 
+import Contact from "./../db/models/Contact.js";
+
+export const listContacts = async () => await Contact.findAll();
+
 // contacts.js
 const contactsPath = path.resolve("db", "contacts.json");
 
@@ -19,10 +23,10 @@ export async function updateContacts(res) {
  *
  * @returns
  */
-export async function listContacts() {
-  const res = await fs.readFile(contactsPath, "utf-8");
-  return JSON.parse(res);
-}
+// export async function listContacts() {
+//   const res = await fs.readFile(contactsPath, "utf-8");
+//   return JSON.parse(res);
+// }
 
 /**
  * Get contact by id
