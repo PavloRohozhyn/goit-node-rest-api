@@ -34,12 +34,9 @@ export const updateContactSchema = Joi.object({
   email: Joi.string().optional().email().messages({
     "string.email": `Please enter a valid email address`,
   }),
-  phone: Joi.string()
-    .optional()
-    .pattern(/^\(\d{3}\) \d{3}-\d{4}$/)
-    .messages({
-      "string.pattern.base": `"phone" should have a next format (000) 000-0000`,
-    }),
+  phone: Joi.string().optional().pattern(PHONE_PATTERN).messages({
+    "string.pattern.base": `"phone" should have a next format (000) 000-0000`,
+  }),
 });
 
 /**
@@ -47,6 +44,6 @@ export const updateContactSchema = Joi.object({
  */
 export const updateContactFavoriteSchema = Joi.object({
   favorite: Joi.boolean().messages({
-    "string.base": `"phone" should have a boolean value`,
+    "string.base": `"favorite" should have a boolean value`,
   }),
 });
