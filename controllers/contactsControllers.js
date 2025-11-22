@@ -73,3 +73,25 @@ export const updateContact = async (req, res) => {
   }
   res.json(data);
 };
+
+/**
+ * Update status contact
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
+export const updateStatusContact = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  if (Object.keys(req.body).length !== 1) {
+    return res.status(400).json({
+      message: "Body must have only one field and the field has name: favorite",
+    });
+  }
+  const data = await service.updateStatusContact(id, req.body);
+  if (!data) {
+    throw httpError(404, `Not Found`);
+  }
+  res.json(data);
+};

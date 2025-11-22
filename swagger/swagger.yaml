@@ -109,6 +109,44 @@ paths:
           description: Validation error
         "404":
           description: Item not found
+  /contacts/{id}/favorite:
+    patch:
+      tags:
+        - Contacts
+      summary: Update favorite status of a contact
+      description: Sets or unsets the "favorite" flag for a specific contact.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          description: ID of the contact to update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                favorite:
+                  type: boolean
+            example:
+              favorite: true
+      responses:
+        "200":
+          description: Favorite status updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  favorite:
+                    type: boolean
+              example:
+                favorite: true
+        "400":
+          description: Invalid request body
+        "404":
+          description: Contact not found
 components:
   schemas:
     Contact:
@@ -127,6 +165,15 @@ components:
         phone:
           type: string
           example: (992) 914-3792
+        favorite:
+          type: boolean
+          example: true
+        createdAt:
+          type: date
+          example: 2025-11-21T18:03:56.764Z
+        updatedAt:
+          type: date
+          example: 2025-11-21T18:03:56.764Z
     NewContact:
       type: object
       properties:

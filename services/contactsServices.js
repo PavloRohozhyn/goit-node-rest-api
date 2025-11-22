@@ -50,3 +50,17 @@ export const updateContactById = async (contactId, updateData) => {
   await updateContact.update(updateData);
   return updateContact;
 };
+
+/**
+ * Update status constanc
+ *
+ * @param {*} contactId
+ * @param {*} updateStatusData
+ * @returns
+ */
+export const updateStatusContact = async (contactId, updateStatusData) => {
+  const contact = await getContactById(contactId);
+  if (!contact) return null;
+  await contact.update(updateStatusData);
+  return contact;
+};

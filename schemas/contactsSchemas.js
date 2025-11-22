@@ -41,3 +41,12 @@ export const updateContactSchema = Joi.object({
       "string.pattern.base": `"phone" should have a next format (000) 000-0000`,
     }),
 });
+
+/**
+ * Update contact favorites
+ */
+export const updateContactFavoriteSchema = Joi.object({
+  favorite: Joi.boolean().messages({
+    "string.base": `"phone" should have a boolean value`,
+  }),
+});
