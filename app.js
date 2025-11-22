@@ -2,15 +2,12 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import "dotenv/config";
-
-// swagger
 import swaggerUi from "swagger-ui-express";
 import fs from "node:fs";
 import YAML from "yaml";
-
 import connectDatabase from "./db/connectDatabase.js";
-
 import contactsRouter from "./routes/contactsRouter.js";
+import { ValidationError } from "sequelize";
 
 const app = express();
 
@@ -31,10 +28,14 @@ app.use((_, res) => {
 });
 
 app.use((err, req, res, next) => {
+  if (err && err instanceof ValidationError) {
+    err.status = 400;
+  }
   const { status = 500, message = "Server error" } = err;
   res.status(status).json({ message });
 });
-connectDatabase();
+
+await connectDatabase();
 app.listen(process.env.PORT, () => {
   console.log("Server is running. Use our API on port: 3000");
 });

@@ -1,4 +1,5 @@
 import Joi from "joi";
+import { PHONE_PATTERN } from "./../consts/contact.constans.js";
 
 /**
  * Create validation
@@ -15,14 +16,11 @@ export const createContactSchema = Joi.object({
     "string.empty": `"email" address cannot be empty.`,
     "any.required": `"email" is a required`,
   }),
-  phone: Joi.string()
-    .pattern(/^\(\d{3}\) \d{3}-\d{4}$/)
-    .required()
-    .messages({
-      "string.empty": `"phone" address cannot be empty.`,
-      "string.pattern.base": `"phone" should have a next format (000) 000-0000`,
-      "any.required": `"phone" is a required`,
-    }),
+  phone: Joi.string().pattern(PHONE_PATTERN).required().messages({
+    "string.empty": `"phone" address cannot be empty.`,
+    "string.pattern.base": `"phone" should have a next format (000) 000-0000`,
+    "any.required": `"phone" is a required`,
+  }),
 });
 
 /**

@@ -1,5 +1,5 @@
 import * as service from "../services/contactsServices.js";
-import httpError from "./../helpers/HttpError.js";
+import { httpError } from "./../helpers/httpError.js";
 
 /**
  * Get All contacts
@@ -11,6 +11,17 @@ import httpError from "./../helpers/HttpError.js";
 export const getAllContacts = async (req, res) => {
   const data = await service.listContacts();
   return res.json(data);
+};
+
+/**
+ * Create contact
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+export const createContact = async (req, res) => {
+  const data = await service.addContact(req.body);
+  res.status(201).json(data);
 };
 
 /**
@@ -41,17 +52,6 @@ export const deleteContact = async (req, res) => {
     throw httpError(404, `Not Found`);
   }
   res.json(data);
-};
-
-/**
- * Create contact
- *
- * @param {*} req
- * @param {*} res
- */
-export const createContact = async (req, res) => {
-  const data = await service.addContact(req.body);
-  res.status(201).json(data);
 };
 
 /**
