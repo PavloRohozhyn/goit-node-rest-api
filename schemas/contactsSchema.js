@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { PHONE_PATTERN } from "./../consts/contact.constans.js";
+import { PHONE_PATTERN } from "./../consts/constans.js";
 
 /**
  * Create validation

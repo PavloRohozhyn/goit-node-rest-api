@@ -6,35 +6,25 @@ import swaggerUi from "swagger-ui-express";
 import fs from "node:fs";
 import YAML from "yaml";
 import connectDatabase from "./db/connectDatabase.js";
-import contactsRouter from "./routes/contactsRouter.js";
-import { ValidationError } from "sequelize";
+import authRouter from "./routes/authRouter.js";
+import contactRouter from "./routes/contactRouter.js";
+import notFoundHandler from "./middlewares/notFoundHandler.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
 const app = express();
 
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
-
-app.use("/api/contacts", contactsRouter);
-
+app.use("/api/auth", authRouter);
+app.use("/api/contacts", contactRouter);
 // -- swagger
 const file = fs.readFileSync("./swagger/swagger.yaml", "utf8");
 const swaggerDocument = YAML.parse(file);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // -- end swagger
-
-app.use((_, res) => {
-  res.status(404).json({ message: "Route not found" });
-});
-
-app.use((err, req, res, next) => {
-  if (err && err instanceof ValidationError) {
-    err.status = 400;
-  }
-  const { status = 500, message = "Server error" } = err;
-  res.status(status).json({ message });
-});
-
+app.use(notFoundHandler);
+app.use(errorHandler);
 await connectDatabase();
 app.listen(process.env.PORT, () => {
   console.log("Server is running. Use our API on port: 3000");

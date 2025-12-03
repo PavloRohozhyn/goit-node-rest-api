@@ -1,6 +1,8 @@
 import { DataTypes } from "sequelize";
 
-import sequelize from "./../sequelize.js";
+import sequelize from "../sequelize.js";
+
+import { EMAIL_PATTERN } from "../../consts/constans.js";
 
 const User = sequelize.define(
   "user",
@@ -12,7 +14,13 @@ const User = sequelize.define(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        args: true,
+        msg: "Email in use",
+      },
+      validate: {
+        isEmail: EMAIL_PATTERN,
+      },
     },
     subscription: {
       type: DataTypes.ENUM,
@@ -24,7 +32,6 @@ const User = sequelize.define(
       defaultValue: null,
     },
   },
-
   {
     sequelize,
     modelName: "User",
@@ -33,7 +40,7 @@ const User = sequelize.define(
   }
 );
 
-// Contact.sync({ alter: true });
-// Contact.sync({ forse: true });
+// User.sync({ alter: true });
+// User.sync({ forse: true });
 
-export default Contact;
+export default User;
