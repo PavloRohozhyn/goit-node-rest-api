@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 
 import sequelize from "./../sequelize.js";
-import { PHONE_PATTERN } from "./../../consts/contact.constans.js";
+import { PHONE_PATTERN } from "../../consts/constans.js";
 
 const Contact = sequelize.define(
   "contact",
@@ -31,6 +31,16 @@ const Contact = sequelize.define(
     favorite: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
+    },
+    owner: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "user",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
   },
   {

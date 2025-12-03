@@ -1,4 +1,4 @@
-import * as service from "../services/contactsServices.js";
+import * as service from "./../services/contactService.js";
 import { httpError } from "./../helpers/httpError.js";
 
 /**

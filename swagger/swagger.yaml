@@ -6,6 +6,179 @@ info:
 servers:
   - url: http://localhost:3000/api/
 paths:
+  /auth/register:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Auth
+      summary: User registration
+      description: Creates a new user account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: "john.doe@example.com"
+                password:
+                  type: string
+                  example: "MyStrongPassword123!"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  email:
+                    type: string
+                  createdAt:
+                    type: string
+                    format: date-time
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: Email in use.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/login:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Auth
+      summary: User login
+      description: Login.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: "test@test.com"
+                password:
+                  type: string
+                  example: "123456"
+      responses:
+        "200":
+          description: Login successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  email:
+                    type: string
+                  createdAt:
+                    type: string
+                    format: date-time
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Validation Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The password or email are wrong"
+  /auth/current:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Auth
+      summary: Get current user
+      description: Current
+      responses:
+        "200":
+          description: Current user details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: test@test.com
+                  subscription:
+                    type: string
+                    example: started
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The password or email are wrong"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Not authorized"
+  /auth/logout:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Auth
+      summary: Logout current user
+      description: Logout
+      responses:
+        "204":
+          description: Logout successfully
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Not authorized"
   /contacts:
     get:
       tags:
@@ -148,6 +321,11 @@ paths:
         "404":
           description: Contact not found
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: "JWT # optional, arbitrary value for documentation purposes"
   schemas:
     Contact:
       type: object
@@ -200,3 +378,12 @@ components:
         phone:
           type: string
           example: (992) 914-3792
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Email already exists"
+        code:
+          type: number
+          example: 409

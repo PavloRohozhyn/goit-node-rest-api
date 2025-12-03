@@ -1,5 +1,4 @@
-import Contact from "./../db/models/Contact.js";
-import { httpError } from "./../helpers/httpError.js";
+import Contact from "../db/models/Contact.js";
 
 /**
  * List contact
