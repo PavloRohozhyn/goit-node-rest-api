@@ -36,7 +36,7 @@ const Contact = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "user",
+        model: "User",
         key: "id",
       },
       onUpdate: "CASCADE",
@@ -51,7 +51,11 @@ const Contact = sequelize.define(
   }
 );
 
+Contact.associate = (models) => {
+  Contact.belongsTo(models.User, { foreignKey: "owner" });
+};
+
 // Contact.sync({ alter: true });
-// Contact.sync({ forse: true });
+Contact.sync({ force: true });
 
 export default Contact;

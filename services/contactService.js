@@ -5,7 +5,12 @@ import Contact from "../db/models/Contact.js";
  *
  * @returns
  */
-export const listContacts = () => Contact.findAll();
+export const listContacts = (owner) =>
+  Contact.findAll({
+    where: {
+      owner,
+    },
+  });
 
 /**
  * Add contact

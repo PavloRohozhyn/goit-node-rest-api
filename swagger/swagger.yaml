@@ -181,6 +181,8 @@ paths:
                     example: "Not authorized"
   /contacts:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Contacts
       summary: Get all contacts
@@ -195,6 +197,8 @@ paths:
                 items:
                   $ref: "#/components/schemas/Contact"
     post:
+      security:
+        - bearerAuth: []
       tags:
         - Contacts
       summary: Create a new contact
@@ -215,6 +219,8 @@ paths:
           description: Validation error.
   /contacts/{id}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Contacts
       summary: Get contact by ID
@@ -223,8 +229,8 @@ paths:
         - in: path
           name: id
           schema:
-            type: string
-          description: ID of the user to retrieve.
+            type: integer
+            required: true
       responses:
         "200":
           description: User found.
@@ -235,6 +241,8 @@ paths:
         "404":
           description: Not Found
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - Contacts
       summary: Delete contact by ID
@@ -243,8 +251,7 @@ paths:
         - in: path
           name: id
           schema:
-            type: string
-          description: ID of the user to delete.
+            type: integer
       responses:
         "200":
           description: User was deleted successfully.
@@ -255,6 +262,8 @@ paths:
         "404":
           description: Not Found
     put:
+      security:
+        - bearerAuth: []
       tags:
         - Contacts
       summary: Update an existing contact
@@ -263,8 +272,7 @@ paths:
         - in: path
           name: id
           schema:
-            type: string
-          description: ID of the user to retrieve.
+            type: integer
       requestBody:
         description: Contact object that needs to be updated
         content:
@@ -284,6 +292,8 @@ paths:
           description: Item not found
   /contacts/{id}/favorite:
     patch:
+      security:
+        - bearerAuth: []
       tags:
         - Contacts
       summary: Update favorite status of a contact
@@ -293,7 +303,6 @@ paths:
           name: id
           schema:
             type: string
-          description: ID of the contact to update
       requestBody:
         content:
           application/json:
@@ -346,6 +355,9 @@ components:
         favorite:
           type: boolean
           example: true
+        owner:
+          type: integer
+          example: 26
         createdAt:
           type: date
           example: 2025-11-21T18:03:56.764Z

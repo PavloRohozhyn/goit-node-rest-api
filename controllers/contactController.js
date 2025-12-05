@@ -9,7 +9,8 @@ import { httpError } from "./../helpers/httpError.js";
  * @returns
  */
 export const getAllContacts = async (req, res) => {
-  const data = await service.listContacts();
+  const { id } = req.user; //get owner id
+  const data = await service.listContacts(id);
   return res.json(data);
 };
 
