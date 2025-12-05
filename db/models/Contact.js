@@ -56,6 +56,6 @@ Contact.associate = (models) => {
 };
 
 // Contact.sync({ alter: true });
-Contact.sync({ force: true });
+// Contact.sync({ force: true });
 
 export default Contact;
