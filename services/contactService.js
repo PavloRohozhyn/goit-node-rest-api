@@ -18,11 +18,12 @@ export const listContacts = (owner) =>
  * @param {*} payload
  * @returns
  */
-export const addContact = (payload, owner) =>
-  Contact.findOrCreate({
-    where: { owner },
-    payload,
+export const addContact = (payload, owner) => {
+  Contact.create({
+    ...payload,
+    owner,
   });
+};
 
 /**
  * Get contact by id
@@ -31,7 +32,7 @@ export const addContact = (payload, owner) =>
  * @returns
  */
 export const getContactById = (contactId, owner) =>
-  Contact.findByPk({ id: contactId, owner });
+  Contact.findOne({ where: { id: contactId, owner } });
 
 /**
  * Remove contact
