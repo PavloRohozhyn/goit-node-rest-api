@@ -8,7 +8,6 @@ import * as service from "../services/authService.js";
  * @returns
  */
 export const registerUser = async (req, res) => {
-  // console.log(req.body);
   const newUser = await service.registerUser(req.body);
   return res.status(201).json({
     user: { email: newUser.email, subscription: newUser.subscription },
@@ -25,6 +24,18 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const token = await service.loginUser(req.body);
   return res.status(200).json({ token });
+};
+
+/**
+ * Avatar
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+export const avatarUser = async (req, res) => {
+  const { id: owner } = req.user;
+  const avatarURL = await service.avatarUser(owner, req.file);
+  return res.status(200).json({ avatarURL });
 };
 
 /**

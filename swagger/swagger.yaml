@@ -116,6 +116,48 @@ paths:
                   message:
                     type: string
                     example: "The password or email are wrong"
+  /auth/avatar:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Auth
+      summary: Update user avatar
+      description: Sets user avatars.
+      requestBody:
+        requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+                  description: The user's avatar files.
+      responses:
+        "200":
+          description: Avatar upload and updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  avatarURL:
+                    type: string
+              example:
+                avatarURL: avatar URL
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Not authorized
   /auth/current:
     get:
       security:
