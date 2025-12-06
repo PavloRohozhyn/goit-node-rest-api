@@ -19,9 +19,7 @@ const authenticate = async (req, res, next) => {
   const { data, error } = await verifyToken(token);
   if (error) throw httpError(401, e.message);
 
-  console.log("---");
   const user = await findUser({ id: data.id });
-  console.log(user);
   if (!user) throw httpError(401, "User not found");
 
   req.user = user;

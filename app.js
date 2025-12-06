@@ -10,8 +10,15 @@ import authRouter from "./routes/authRouter.js";
 import contactRouter from "./routes/contactRouter.js";
 import notFoundHandler from "./middlewares/notFoundHandler.js";
 import errorHandler from "./middlewares/errorHandler.js";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { STATIC_FOLDER_NAME } from "./consts/constans.js";
 
 const app = express();
+// static files
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, STATIC_FOLDER_NAME)));
 
 app.use(morgan("tiny"));
 app.use(cors());
