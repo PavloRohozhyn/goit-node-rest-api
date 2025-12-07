@@ -1,6 +1,8 @@
 import express from "express";
 import {
   registerUser,
+  verifyUser,
+  resentEmailUser,
   loginUser,
   avatarUser,
   currentUser,
@@ -14,6 +16,8 @@ import upload from "./../middlewares/upload.js";
 const authRouter = express.Router();
 
 authRouter.post("/register", validateBody(registerSchema), registerUser);
+authRouter.get("/verify/:verificationToken", verifyUser);
+authRouter.post("/verify", resentEmailUser);
 authRouter.post("/login", validateBody(loginSchema), loginUser);
 authRouter.patch(
   "/avatar",
