@@ -59,8 +59,6 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
   /auth/verify/{verificationToken}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Auth
       summary: User email verification
@@ -83,6 +81,58 @@ paths:
                     type: string
               example:
                 message: Verification successful
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Not Found
+  /auth/verify:
+    post:
+      tags:
+        - Auth
+      summary: resent verification email
+      description: verification link.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  example: "test@test.com"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Verification email sent
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Verification has already been passed
         "404":
           description: Not Found
           content:

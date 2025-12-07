@@ -27,6 +27,17 @@ export const verifyUser = async (req, res) => {
 };
 
 /**
+ * Resent verification email
+ * @param {*} req
+ * @param {*} res
+ */
+export const resentEmailUser = async (req, res) => {
+  const { email } = req.body;
+  await service.resentEmailUser(email);
+  res.json({ message: "Verification email sent" });
+};
+
+/**
  * Login
  *
  * @param {*} req

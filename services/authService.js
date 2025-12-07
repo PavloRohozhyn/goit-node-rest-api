@@ -67,6 +67,32 @@ export const registerUser = async (payload) => {
 };
 
 /**
+ * Resent
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const resentEmailUser = async (email) => {
+  const user = await User.findOne({ where: { email } });
+  let vtoken = user.verificationToken;
+  if (!user) throw httpError(404, "User Not Found");
+  if (user.verify) throw httpError(400, "Verification has already been passed");
+  // paranoia
+  if (!vtoken) {
+    vtoken = nanoid();
+    await user.update({ verificationToken: vtoken });
+  }
+  await sendEmail({
+    to: email,
+    subject: "Verify email",
+    html: `<strong>Verify email (resent)</strong><br>
+    <a href="${SERVER_URL}/api/auth/verify/${vtoken}" target="_blank">click to verify</a>`,
+  });
+
+  return true;
+};
+
+/**
  * Refresh user
  *
  * @param {*} user
@@ -86,7 +112,6 @@ export const refreshUser = async (user) => {
  */
 export const verifyUser = async (verificationToken) => {
   const user = await User.findOne({ where: { verificationToken } });
-  console.log(user);
   if (!user) {
     throw httpError(404, "User not found");
   }
