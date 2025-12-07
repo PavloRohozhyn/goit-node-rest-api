@@ -57,6 +57,43 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  /auth/verify/{verificationToken}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Auth
+      summary: User email verification
+      description: verification link.
+      parameters:
+        - in: path
+          name: verificationToken
+          schema:
+            type: string
+            required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Verification successful
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Not Found
   /auth/login:
     post:
       security:

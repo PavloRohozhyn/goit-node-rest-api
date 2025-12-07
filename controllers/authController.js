@@ -15,6 +15,18 @@ export const registerUser = async (req, res) => {
 };
 
 /**
+ * Verification user
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+export const verifyUser = async (req, res) => {
+  const { verificationToken } = req.params;
+  await service.verifyUser(verificationToken);
+  res.json({ message: "Verification successful" });
+};
+
+/**
  * Login
  *
  * @param {*} req
