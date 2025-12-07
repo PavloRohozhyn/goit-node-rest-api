@@ -127,3 +127,13 @@ ResponseBody: {
     message: "Verification has already been passed"
 }
 ```
+
+### Результат
+
+Після розгортання проекту документацію по API можна буде знайти по адресу
+
+```
+http://localhost:3000/api-docs/
+```
+
+![swagger](./result.png)
